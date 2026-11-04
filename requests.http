@@ -1,0 +1,492 @@
+# Fiktive Daten. Die IDs 1 setzen eine anfangs leere Datenbank voraus.
+@baseUrl = http://localhost:8000
+
+### Anlegen: paciente — erwartet 201
+POST {{baseUrl}}/pacientes
+Content-Type: application/json
+
+{
+  "cpf": "00000000001",
+  "nome_completo": "Paciente de Exemplo",
+  "data_nascimento": "1990-05-20",
+  "sexo_biologico": "feminino",
+  "telefone": "81900000001",
+  "email": "paciente@example.com",
+  "logradouro": "Rua Exemplo",
+  "numero_endereco": "100",
+  "bairro": "Centro",
+  "cidade": "Recife",
+  "estado": "PE",
+  "cep": "50000000",
+  "possui_plano_saude": false
+}
+
+### Anlegen: atendente_profissional — erwartet 201
+POST {{baseUrl}}/atendentes
+Content-Type: application/json
+
+{
+  "cpf": "00000000002",
+  "nome_completo": "Profissional de Exemplo",
+  "telefone": "81900000002"
+}
+
+### Anlegen: profissional — erwartet 201
+POST {{baseUrl}}/profissionais-saude
+Content-Type: application/json
+
+{
+  "cpf": "00000000002",
+  "numero_profissional": "PROF-EXEMPLO-01",
+  "conselho_registro": "CRF-EXEMPLO-01",
+  "especialidade_area": "Farmácia clínica",
+  "instituicao_vinculo": "Instituição de Exemplo"
+}
+
+### Anlegen: atendente_estagiario — erwartet 201
+POST {{baseUrl}}/atendentes
+Content-Type: application/json
+
+{
+  "cpf": "00000000003",
+  "nome_completo": "Estagiário de Exemplo",
+  "telefone": "81900000003"
+}
+
+### Anlegen: estagiario — erwartet 201
+POST {{baseUrl}}/estagiarios
+Content-Type: application/json
+
+{
+  "cpf": "00000000003",
+  "instituicao_ensino": "Universidade de Exemplo",
+  "curso_formacao": "Farmácia"
+}
+
+### Anlegen: estabelecimento — erwartet 201
+POST {{baseUrl}}/estabelecimentos-saude
+Content-Type: application/json
+
+{
+  "nome": "Unidade de Exemplo",
+  "tipo_atendimento": "Ambulatorial",
+  "cep": "50000000",
+  "logradouro": "Rua da Unidade",
+  "numero_endereco": "200",
+  "bairro": "Centro",
+  "cidade": "Recife",
+  "estado": "PE"
+}
+
+### Anlegen: medicamento — erwartet 201
+POST {{baseUrl}}/medicamentos
+Content-Type: application/json
+
+{
+  "nome": "Medicamento de exemplo"
+}
+
+### Anlegen: condicao — erwartet 201
+POST {{baseUrl}}/condicoes-saude
+Content-Type: application/json
+
+{
+  "nome": "Condição de exemplo",
+  "tipo": "Crônica"
+}
+
+### Anlegen: parametro — erwartet 201
+POST {{baseUrl}}/tipos-parametro
+Content-Type: application/json
+
+{
+  "nome": "Pressão arterial",
+  "unidade_medida": "mmHg",
+  "faixa_referencia": "Faixa fictícia para demonstração"
+}
+
+### Anlegen: consulta — erwartet 201
+POST {{baseUrl}}/consultas
+Content-Type: application/json
+
+{
+  "cpf_paciente": "00000000001",
+  "cpf_profissional_responsavel": "00000000002",
+  "cpf_estagiario": "00000000003",
+  "id_estabelecimento": 1,
+  "data_realizacao": "2026-11-10T09:00:00-03:00",
+  "especialidade_medica": "Farmácia clínica"
+}
+
+### Anlegen: agendamento — erwartet 201
+POST {{baseUrl}}/agendamentos-medicao
+Content-Type: application/json
+
+{
+  "cpf_paciente": "00000000001",
+  "cpf_profissional": "00000000002",
+  "data_horario": "2026-11-10T10:00:00-03:00",
+  "status": "agendado",
+  "observacoes": "Agendamento de exemplo"
+}
+
+### Anlegen: vinculo_parametro — erwartet 201
+POST {{baseUrl}}/agendamentos-parametros
+Content-Type: application/json
+
+{
+  "id_agendamento": 1,
+  "id_tipo_parametro": 1
+}
+
+### Anlegen: medicao — erwartet 201
+POST {{baseUrl}}/medicoes-clinicas
+Content-Type: application/json
+
+{
+  "cpf_paciente": "00000000001",
+  "id_tipo_parametro": 1,
+  "id_agendamento": 1,
+  "id_consulta": 1,
+  "data_horario": "2026-11-10T10:05:00-03:00",
+  "valor_aferido": "120/80",
+  "origem": "consulta",
+  "observacoes": "Valor fictício para teste"
+}
+
+### Anlegen: resultado — erwartet 201
+POST {{baseUrl}}/resultados-exame
+Content-Type: application/json
+
+{
+  "cpf_paciente": "00000000001",
+  "laudo_resultado": "Laudo fictício para demonstração"
+}
+
+### Anlegen: paciente_condicao — erwartet 201
+POST {{baseUrl}}/pacientes-condicoes
+Content-Type: application/json
+
+{
+  "cpf_paciente": "00000000001",
+  "id_condicao": 1,
+  "data_sintomas_ou_diagnostico": "2025-01-10"
+}
+
+### Anlegen: uso — erwartet 201
+POST {{baseUrl}}/usos-medicamento
+Content-Type: application/json
+
+{
+  "cpf_paciente": "00000000001",
+  "id_medicamento": 1,
+  "dose": "Dose fictícia",
+  "frequencia": "Frequência fictícia",
+  "forma_farmaceutica": "Comprimido",
+  "via_administracao": "Oral",
+  "data_inicio": "2026-11-01",
+  "data_fim": null,
+  "foi_prescrito": true,
+  "instrucoes": "Texto de demonstração, sem orientação terapêutica"
+}
+
+### Anlegen: reacao — erwartet 201
+POST {{baseUrl}}/reacoes-alergicas
+Content-Type: application/json
+
+{
+  "cpf_paciente": "00000000001",
+  "id_medicamento": 1,
+  "data_ocorrencia": "2026-11-02",
+  "descricao": "Reação fictícia para teste"
+}
+
+### Auflisten: paciente — erwartet 200
+GET {{baseUrl}}/pacientes
+
+### Lesen: paciente — erwartet 200
+GET {{baseUrl}}/pacientes/00000000001
+
+### Ändern: paciente — erwartet 200
+PATCH {{baseUrl}}/pacientes/00000000001
+Content-Type: application/json
+
+{
+  "nome_completo": "Paciente de Exemplo Atualizado"
+}
+
+### Auflisten: atendente_profissional — erwartet 200
+GET {{baseUrl}}/atendentes
+
+### Lesen: atendente_profissional — erwartet 200
+GET {{baseUrl}}/atendentes/00000000002
+
+### Ändern: atendente_profissional — erwartet 200
+PATCH {{baseUrl}}/atendentes/00000000002
+Content-Type: application/json
+
+{
+  "telefone": "81900000022"
+}
+
+### Auflisten: profissional — erwartet 200
+GET {{baseUrl}}/profissionais-saude
+
+### Lesen: profissional — erwartet 200
+GET {{baseUrl}}/profissionais-saude/00000000002
+
+### Ändern: profissional — erwartet 200
+PATCH {{baseUrl}}/profissionais-saude/00000000002
+Content-Type: application/json
+
+{
+  "especialidade_area": "Acompanhamento farmacoterapêutico"
+}
+
+### Auflisten: atendente_estagiario — erwartet 200
+GET {{baseUrl}}/atendentes
+
+### Lesen: atendente_estagiario — erwartet 200
+GET {{baseUrl}}/atendentes/00000000003
+
+### Ändern: atendente_estagiario — erwartet 200
+PATCH {{baseUrl}}/atendentes/00000000003
+Content-Type: application/json
+
+{
+  "telefone": "81900000033"
+}
+
+### Auflisten: estagiario — erwartet 200
+GET {{baseUrl}}/estagiarios
+
+### Lesen: estagiario — erwartet 200
+GET {{baseUrl}}/estagiarios/00000000003
+
+### Ändern: estagiario — erwartet 200
+PATCH {{baseUrl}}/estagiarios/00000000003
+Content-Type: application/json
+
+{
+  "instituicao_ensino": "Universidade de Exemplo Atualizada"
+}
+
+### Auflisten: estabelecimento — erwartet 200
+GET {{baseUrl}}/estabelecimentos-saude
+
+### Lesen: estabelecimento — erwartet 200
+GET {{baseUrl}}/estabelecimentos-saude/1
+
+### Ändern: estabelecimento — erwartet 200
+PATCH {{baseUrl}}/estabelecimentos-saude/1
+Content-Type: application/json
+
+{
+  "nome": "Unidade de Exemplo Atualizada"
+}
+
+### Auflisten: medicamento — erwartet 200
+GET {{baseUrl}}/medicamentos
+
+### Lesen: medicamento — erwartet 200
+GET {{baseUrl}}/medicamentos/1
+
+### Ändern: medicamento — erwartet 200
+PATCH {{baseUrl}}/medicamentos/1
+Content-Type: application/json
+
+{
+  "nome": "Medicamento de exemplo atualizado"
+}
+
+### Auflisten: condicao — erwartet 200
+GET {{baseUrl}}/condicoes-saude
+
+### Lesen: condicao — erwartet 200
+GET {{baseUrl}}/condicoes-saude/1
+
+### Ändern: condicao — erwartet 200
+PATCH {{baseUrl}}/condicoes-saude/1
+Content-Type: application/json
+
+{
+  "tipo": "Condição em acompanhamento"
+}
+
+### Auflisten: parametro — erwartet 200
+GET {{baseUrl}}/tipos-parametro
+
+### Lesen: parametro — erwartet 200
+GET {{baseUrl}}/tipos-parametro/1
+
+### Ändern: parametro — erwartet 200
+PATCH {{baseUrl}}/tipos-parametro/1
+Content-Type: application/json
+
+{
+  "faixa_referencia": "Referência de exemplo atualizada"
+}
+
+### Auflisten: consulta — erwartet 200
+GET {{baseUrl}}/consultas
+
+### Lesen: consulta — erwartet 200
+GET {{baseUrl}}/consultas/1
+
+### Ändern: consulta — erwartet 200
+PATCH {{baseUrl}}/consultas/1
+Content-Type: application/json
+
+{
+  "especialidade_medica": "Acompanhamento farmacoterapêutico"
+}
+
+### Auflisten: agendamento — erwartet 200
+GET {{baseUrl}}/agendamentos-medicao
+
+### Lesen: agendamento — erwartet 200
+GET {{baseUrl}}/agendamentos-medicao/1
+
+### Ändern: agendamento — erwartet 200
+PATCH {{baseUrl}}/agendamentos-medicao/1
+Content-Type: application/json
+
+{
+  "status": "concluido"
+}
+
+### Auflisten: vinculo_parametro — erwartet 200
+GET {{baseUrl}}/agendamentos-parametros
+
+### Lesen: vinculo_parametro — erwartet 200
+GET {{baseUrl}}/agendamentos-parametros/1,1
+
+### Ändern: vinculo_parametro — erwartet 200
+PATCH {{baseUrl}}/agendamentos-parametros/1,1
+Content-Type: application/json
+
+{
+  "id_tipo_parametro": 1
+}
+
+### Auflisten: medicao — erwartet 200
+GET {{baseUrl}}/medicoes-clinicas
+
+### Lesen: medicao — erwartet 200
+GET {{baseUrl}}/medicoes-clinicas/1
+
+### Ändern: medicao — erwartet 200
+PATCH {{baseUrl}}/medicoes-clinicas/1
+Content-Type: application/json
+
+{
+  "observacoes": "Registro de exemplo revisado"
+}
+
+### Auflisten: resultado — erwartet 200
+GET {{baseUrl}}/resultados-exame
+
+### Lesen: resultado — erwartet 200
+GET {{baseUrl}}/resultados-exame/1
+
+### Ändern: resultado — erwartet 200
+PATCH {{baseUrl}}/resultados-exame/1
+Content-Type: application/json
+
+{
+  "laudo_resultado": "Laudo fictício atualizado"
+}
+
+### Auflisten: paciente_condicao — erwartet 200
+GET {{baseUrl}}/pacientes-condicoes
+
+### Lesen: paciente_condicao — erwartet 200
+GET {{baseUrl}}/pacientes-condicoes/1
+
+### Ändern: paciente_condicao — erwartet 200
+PATCH {{baseUrl}}/pacientes-condicoes/1
+Content-Type: application/json
+
+{
+  "data_sintomas_ou_diagnostico": "2025-01-11"
+}
+
+### Auflisten: uso — erwartet 200
+GET {{baseUrl}}/usos-medicamento
+
+### Lesen: uso — erwartet 200
+GET {{baseUrl}}/usos-medicamento/1
+
+### Ändern: uso — erwartet 200
+PATCH {{baseUrl}}/usos-medicamento/1
+Content-Type: application/json
+
+{
+  "instrucoes": "Texto de exemplo atualizado"
+}
+
+### Auflisten: reacao — erwartet 200
+GET {{baseUrl}}/reacoes-alergicas
+
+### Lesen: reacao — erwartet 200
+GET {{baseUrl}}/reacoes-alergicas/1
+
+### Ändern: reacao — erwartet 200
+PATCH {{baseUrl}}/reacoes-alergicas/1
+Content-Type: application/json
+
+{
+  "descricao": "Descrição de exemplo atualizada"
+}
+
+### Löschen: reacao — erwartet 204
+DELETE {{baseUrl}}/reacoes-alergicas/1
+
+### Löschen: uso — erwartet 204
+DELETE {{baseUrl}}/usos-medicamento/1
+
+### Löschen: paciente_condicao — erwartet 204
+DELETE {{baseUrl}}/pacientes-condicoes/1
+
+### Löschen: resultado — erwartet 204
+DELETE {{baseUrl}}/resultados-exame/1
+
+### Löschen: medicao — erwartet 204
+DELETE {{baseUrl}}/medicoes-clinicas/1
+
+### Löschen: vinculo_parametro — erwartet 204
+DELETE {{baseUrl}}/agendamentos-parametros/1,1
+
+### Löschen: agendamento — erwartet 204
+DELETE {{baseUrl}}/agendamentos-medicao/1
+
+### Löschen: consulta — erwartet 204
+DELETE {{baseUrl}}/consultas/1
+
+### Löschen: parametro — erwartet 204
+DELETE {{baseUrl}}/tipos-parametro/1
+
+### Löschen: condicao — erwartet 204
+DELETE {{baseUrl}}/condicoes-saude/1
+
+### Löschen: medicamento — erwartet 204
+DELETE {{baseUrl}}/medicamentos/1
+
+### Löschen: estabelecimento — erwartet 204
+DELETE {{baseUrl}}/estabelecimentos-saude/1
+
+### Löschen: estagiario — erwartet 204
+DELETE {{baseUrl}}/estagiarios/00000000003
+
+### Löschen: atendente_estagiario — erwartet 204
+DELETE {{baseUrl}}/atendentes/00000000003
+
+### Löschen: profissional — erwartet 204
+DELETE {{baseUrl}}/profissionais-saude/00000000002
+
+### Löschen: atendente_profissional — erwartet 204
+DELETE {{baseUrl}}/atendentes/00000000002
+
+### Löschen: paciente — erwartet 204
+DELETE {{baseUrl}}/pacientes/00000000001
+
